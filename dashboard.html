@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Vehicle Temperature Monitoring System
+    </title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-left">
+
+            <h1>
+                🚗 Vehicle Temperature Monitoring System
+            </h1>
+
+            <p>
+                Real-Time IoT Dashboard
+            </p>
+
+        </div>
+
+        <div class="header-right">
+
+            <h3>
+                Welcome
+            </h3>
+
+            <p id="username">
+                Loading...
+            </p>
+
+            <br>
+
+            <h3>
+                Last Updated
+            </h3>
+
+            <p id="lastUpdate">
+                --
+            </p>
+
+            <br>
+
+            <button onclick="downloadCSV()">
+                Download Report
+            </button>
+
+            <br><br>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- CRITICAL ALERT -->
+
+    <div
+        id="criticalAlert"
+        class="alert-banner">
+
+        ⚠ OVERHEATING DETECTED
+        <br>
+        STOP VEHICLE IMMEDIATELY
+
+    </div>
+
+    <!-- MAIN CARDS -->
+
+    <div class="container">
+
+        <div class="card">
+
+            <h3>
+                🌡 Cabin Temperature
+            </h3>
+
+            <h1 id="cabinTemp">
+                -- °C
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                ⚙ Engine Temperature
+            </h3>
+
+            <h1 id="engineTemp">
+                -- °C
+            </h1>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                🚦 Vehicle Status
+            </h3>
+
+            <h1 id="status">
+                --
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats-container">
+
+        <div class="stats-card">
+
+            <h3>Total Records</h3>
+
+            <h1 id="totalRecords">
+                0
+            </h1>
+
+        </div>
+
+        <div class="stats-card">
+
+            <h3>SAFE Records</h3>
+
+            <h1 id="safeCount">
+                0
+            </h1>
+
+        </div>
+
+        <div class="stats-card">
+
+            <h3>CAUTION Records</h3>
+
+            <h1 id="cautionCount">
+                0
+            </h1>
+
+        </div>
+
+        <div class="stats-card">
+
+            <h3>CRITICAL Records</h3>
+
+            <h1 id="criticalCount">
+                0
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- CONDITION -->
+
+    <div class="status-panel">
+
+        <h2>
+            Current Vehicle Condition
+        </h2>
+
+        <div id="conditionText">
+            Waiting Data...
+        </div>
+
+    </div>
+
+    <!-- GRAPH -->
+
+    <div class="graph-card">
+
+        <h2>
+            Temperature Trend Analysis
+        </h2>
+
+        <canvas id="tempChart"></canvas>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <h2>
+            Temperature History Records
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Cabin Temp</th>
+
+                    <th>Engine Temp</th>
+
+                    <th>Status</th>
+
+                    <th>Date & Time</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- AUTH -->
+
+    <script src="auth.js"></script>
+
+    <script>
+
+        async function checkUser()
+        {
+            const {
+                data
+            }
+            =
+            await client.auth.getSession();
+
+            if(!data.session)
+            {
+                window.location =
+                "login.html";
+
+                return;
+            }
+
+            const userId =
+            data.session.user.id;
+
+            const {
+                data: profile
+            }
+            =
+            await client
+            .from("profiles")
+            .select("username")
+            .eq("id", userId)
+            .single();
+
+            if(profile)
+            {
+                document.getElementById(
+                    "username"
+                ).innerHTML =
+                profile.username;
+            }
+        }
+
+        async function logout()
+        {
+            await client.auth.signOut();
+
+            window.location =
+            "login.html";
+        }
+
+        checkUser();
+
+    </script>
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>

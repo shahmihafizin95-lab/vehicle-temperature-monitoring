@@ -22,10 +22,41 @@ body{
 }
 
 /* =====================================
-   HEADER
+   TOP HEADER
 ===================================== */
 
-.header{
+.top-header{
+
+    text-align:center;
+
+    margin-bottom:25px;
+}
+
+.top-header h1{
+
+    font-size:46px;
+
+    color:#38bdf8;
+
+    margin-bottom:10px;
+}
+
+.top-header p{
+
+    color:#94a3b8;
+
+    font-size:18px;
+}
+
+/* =====================================
+   USER PANEL
+===================================== */
+
+.user-panel{
+
+    width:90%;
+
+    margin:0 auto 35px auto;
 
     display:flex;
 
@@ -35,59 +66,37 @@ body{
 
     flex-wrap:wrap;
 
-    margin-bottom:40px;
-}
+    gap:20px;
 
-.header-left h1{
+    padding:25px;
 
-    color:#38bdf8;
+    border-radius:20px;
 
-    font-size:42px;
+    background:
+    rgba(30,41,59,0.75);
 
-    margin-bottom:10px;
-}
+    backdrop-filter:
+    blur(12px);
 
-.header-left p{
-
-    color:#94a3b8;
-
-    font-size:18px;
-}
-
-.header-right{
-
-    background:#1e293b;
-
-    padding:15px 25px;
-
-    border-radius:15px;
-
-    text-align:center;
+    border:
+    1px solid
+    rgba(255,255,255,0.08);
 
     box-shadow:
-    0 0 20px
+    0 0 25px
     rgba(56,189,248,0.15);
 }
 
-.header-right h3{
+.user-panel h3{
 
     color:#94a3b8;
 
     margin-bottom:5px;
 }
 
-#lastUpdate{
+.user-panel p{
 
     color:#38bdf8;
-
-    font-weight:bold;
-}
-
-#username{
-
-    color:#38bdf8;
-
-    font-size:20px;
 
     font-weight:bold;
 }
@@ -157,18 +166,26 @@ body{
 
 .card{
 
-    width:300px;
+    width:320px;
 
-    background:#1e293b;
+    background:
+    rgba(30,41,59,0.75);
 
-    padding:30px;
+    backdrop-filter:
+    blur(12px);
 
-    border-radius:20px;
+    border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+    padding:35px;
+
+    border-radius:25px;
 
     text-align:center;
 
     box-shadow:
-    0 0 20px
+    0 0 25px
     rgba(56,189,248,0.15);
 
     transition:0.3s;
@@ -192,7 +209,9 @@ body{
 
 .card h1{
 
-    font-size:42px;
+    font-size:52px;
+
+    font-weight:bold;
 
     color:#38bdf8;
 }
@@ -292,7 +311,15 @@ body{
 
     margin:0 auto 30px auto;
 
-    background:#1e293b;
+    background:
+    rgba(30,41,59,0.75);
+
+    backdrop-filter:
+    blur(12px);
+
+    border:
+    1px solid
+    rgba(255,255,255,0.08);
 
     padding:30px;
 
@@ -318,7 +345,15 @@ body{
 
     margin:0 auto;
 
-    background:#1e293b;
+    background:
+    rgba(30,41,59,0.75);
+
+    backdrop-filter:
+    blur(12px);
+
+    border:
+    1px solid
+    rgba(255,255,255,0.08);
 
     padding:30px;
 
@@ -384,6 +419,37 @@ tr:hover{
 .critical{
 
     color:#ef4444;
+}
+
+/* =====================================
+   STATUS CARD
+===================================== */
+
+.status-safe{
+
+    border:2px solid #22c55e;
+
+    box-shadow:
+    0 0 25px
+    rgba(34,197,94,0.35);
+}
+
+.status-caution{
+
+    border:2px solid #f59e0b;
+
+    box-shadow:
+    0 0 25px
+    rgba(245,158,11,0.35);
+}
+
+.status-critical{
+
+    border:2px solid #ef4444;
+
+    box-shadow:
+    0 0 30px
+    rgba(239,68,68,0.55);
 }
 
 /* =====================================

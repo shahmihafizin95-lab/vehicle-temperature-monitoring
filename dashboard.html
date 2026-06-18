@@ -25,21 +25,23 @@
 
     <!-- HEADER -->
 
-    <div class="header">
+    <div class="top-header">
 
-        <div class="header-left">
+        <h1>
+            🚗 Vehicle Temperature Monitoring System
+        </h1>
 
-            <h1>
-                🚗 Vehicle Temperature Monitoring System
-            </h1>
+        <p>
+            Real-Time IoT Monitoring Dashboard
+        </p>
 
-            <p>
-                Real-Time IoT Dashboard
-            </p>
+    </div>
 
-        </div>
+    <!-- USER PANEL -->
 
-        <div class="header-right">
+    <div class="user-panel">
+
+        <div>
 
             <h3>
                 Welcome
@@ -49,7 +51,9 @@
                 Loading...
             </p>
 
-            <br>
+        </div>
+
+        <div>
 
             <h3>
                 Last Updated
@@ -59,13 +63,13 @@
                 --
             </p>
 
-            <br>
+        </div>
+
+        <div>
 
             <button onclick="downloadCSV()">
                 Download Report
             </button>
-
-            <br><br>
 
             <button onclick="logout()">
                 Logout
@@ -115,7 +119,8 @@
 
         </div>
 
-        <div class="card">
+        <div class="card"
+            id="statusCard">
 
             <h3>
                 🚦 Vehicle Status
@@ -174,7 +179,7 @@
         </div>
 
     </div>
-
+    
     <!-- CONDITION -->
 
     <div class="status-panel">

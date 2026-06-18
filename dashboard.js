@@ -162,6 +162,17 @@ async function loadCurrentData()
                 "status"
             );
 
+            const statusCard =
+            document.getElementById(
+                "statusCard"
+            );
+
+            statusCard.classList.remove(
+                "status-safe",
+                "status-caution",
+                "status-critical"
+            );
+
             const condition =
             document.getElementById(
                 "conditionText"
@@ -189,6 +200,10 @@ async function loadCurrentData()
                     "safe"
                 );
 
+                statusCard.classList.add(
+                "status-safe"
+                );
+
                 condition.className =
                 "safe";
 
@@ -211,6 +226,10 @@ async function loadCurrentData()
                     "caution"
                 );
 
+                statusCard.classList.add(
+                "status-caution"
+                );
+
                 condition.className =
                 "caution";
 
@@ -228,6 +247,10 @@ async function loadCurrentData()
             {
                 statusElement.classList.add(
                     "critical"
+                );
+
+                statusCard.classList.add(
+                "status-critical"
                 );
 
                 condition.className =
@@ -457,6 +480,136 @@ async function loadStatistics()
             "criticalCount"
         ).innerHTML =
         critical;
+    }
+
+    catch(error)
+    {
+        console.error(error);
+    }
+}
+
+// =====================================
+// ANALYTICS
+// =====================================
+
+async function loadAnalytics()
+{
+    try
+    {
+        const response =
+        await fetch(
+            `${SUPABASE_URL}/rest/v1/temperature_data?select=*`,
+            {
+                headers:
+                {
+                    apikey: SUPABASE_KEY,
+
+                    Authorization:
+                    `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        if(data.length === 0)
+        {
+            return;
+        }
+
+        let highest = 0;
+
+        let totalCabin = 0;
+        let totalEngine = 0;
+
+        data.forEach(row =>
+        {
+            const cabin =
+            parseFloat(row.cabin_temp);
+
+            const engine =
+            parseFloat(row.engine_temp);
+
+            totalCabin += cabin;
+            totalEngine += engine;
+
+            if(cabin > highest)
+            {
+                highest = cabin;
+            }
+
+            if(engine > highest)
+            {
+                highest = engine;
+            }
+        });
+
+        const average =
+        (
+            (totalCabin + totalEngine)
+            /
+            (data.length * 2)
+        ).toFixed(1);
+
+        document.getElementById(
+            "highestTemp"
+        ).innerHTML =
+        highest + " °C";
+
+        document.getElementById(
+            "averageTemp"
+        ).innerHTML =
+        average + " °C";
+
+        const latest =
+        data[data.length - 1];
+
+        let score = 100;
+
+        if(latest.status === "CAUTION")
+        {
+            score = 70;
+        }
+
+        if(latest.status === "CRITICAL")
+        {
+            score = 30;
+        }
+
+        document.getElementById(
+            "healthScore"
+        ).innerHTML =
+        score + "%";
+
+        const lastUpdate =
+        new Date(
+            latest.created_at
+        );
+
+        const now =
+        new Date();
+
+        const diffSeconds =
+        (
+            now - lastUpdate
+        ) / 1000;
+
+        const sensor =
+        document.getElementById(
+            "sensorStatus"
+        );
+
+        if(diffSeconds <= 30)
+        {
+            sensor.innerHTML =
+            "🟢 Online";
+        }
+        else
+        {
+            sensor.innerHTML =
+            "🔴 Offline";
+        }
     }
 
     catch(error)
